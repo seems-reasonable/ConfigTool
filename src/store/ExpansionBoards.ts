@@ -19,6 +19,8 @@ export enum ExpansionBoardType {
 	TOOL1RR = "Duet 3 Roto Tool Board",
 	SZP = "Duet 3 Scanning Z-Probe Board",
 
+	SrExpansion = "Seems Reasonable Custom Sammy-C21 Board",
+
 	Mini5plus = "Duet 3 Mini 5+",
 	MB6HC = "Duet 3 Main Board 6HC",
 	MB6XD = "Duet 3 Main Board 6XD",
@@ -78,6 +80,48 @@ export const ExpansionBoards: Record<ExpansionBoardType, ExpansionBoardDescripto
 			[PortType.spiCs]: ["spi.cs0", "spi.cs1", "spi.cs2", "spi.cs3"],
 			[PortType.thermistor]: ["temp0", "temp1", "temp2"],
 			[PortType.uart]: []
+		},
+		supportsAccelerometer: false,
+		hasBuiltInAccelerometer: false
+	},
+	[ExpansionBoardType.SrExpansion]: {
+		hasADCAutoCalibration: false,
+		hasClosedLoopDrivers: false,
+		hasInputPullUps: true,
+		hasSmartDrivers: false,
+		hasStealthChop: false,
+		hasVrefMonitor: false,
+		motorWarnCurrent: -1,
+		motorMaxCurrent: -1,
+		minVoltage: 12,
+		maxVoltage: 45,
+		numDrivers: 1,
+		microstepInterpolations: [],
+		objectModelBoard: initObject(Board, {
+			canAddress: 124,
+			firmwareFileName: "Duet3Firmware-SAMMYC21.bin",
+			maxHeaters: 0,
+			maxMotors: 1,
+			shortName: "SrExpansion"
+		}),
+		ports: {
+			[PortType.analogIn]: ["temp0", "temp1", "pa08", "pa20"],
+			// fan and heater are treated identically AFAIK. Most medium current
+			// outputs seem to be fan, and high power are heater, but it's
+			// wildly inconsistent.
+			[PortType.fan]: ["pa12", "pa19"],
+			[PortType.fanTacho]: [],
+			[PortType.gpIn]: ["pa05", "pa07", "pa13", "pa17", "pa18", "pb08"],
+			[PortType.gpInInterrupt]: ["pa05", "pa07", "pa13", "pa17", "pa18", "pb08"],
+			[PortType.gpOut]: ["pa16", "pa21", "pa23", "pa24"],
+			[PortType.heater]: ["pa04", "pa06"],
+			// pwm is the PWM-capable subset of gpOut.
+			[PortType.pwm]: ["pa23"],
+			[PortType.scanning]: [],
+			[PortType.spiCs]: [],
+			// This is needed to use them as temperature sensors.
+			[PortType.thermistor]: ["temp0", "temp1", "pa08", "pa20"],
+			[PortType.uart]: ["pa17+pa16"]
 		},
 		supportsAccelerometer: false,
 		hasBuiltInAccelerometer: false
